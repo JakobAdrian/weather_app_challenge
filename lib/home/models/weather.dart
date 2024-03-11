@@ -1,5 +1,50 @@
+import 'package:json_annotation/json_annotation.dart';
+import 'package:weather_app/home/models/weather.dart';
+import 'package:weather_app/home/repositories/weather_repository.dart';
+import 'package:flutter/material.dart';
+part 'weather.g.dart';
+
+@JsonSerializable()
 class Weather {
-  factory Weather.fromJson(String body) {
-    throw UnimplementedError();
-  }
+  final int cloud_pct;
+  final int temp;
+  final int feels_like;
+  final int humidity;
+  final int min_temp;
+  final int max_temp;
+  final double wind_speed;
+  final int wind_degrees;
+  final int sunrise;
+  final int sunset;
+
+  Weather({
+    required this.cloud_pct,
+    required this.temp,
+    required this.feels_like,
+    required this.humidity,
+    required this.min_temp,
+    required this.max_temp,
+    required this.wind_speed,
+    required this.wind_degrees,
+    required this.sunrise,
+    required this.sunset,
+  });
 }
+
+class Weather1 {
+  final double minTemp;
+
+  Weather1({required this.minTemp});
+}
+ 
+
+// "cloud_pct": 31,
+//   "temp": 8,
+//   "feels_like": 6,
+//   "humidity": 69,
+//   "min_temp": 6,
+//   "max_temp": 10,
+//   "wind_speed": 2.24,
+//   "wind_degrees": 139,
+//   "sunrise": 1709876443,
+//   "sunset": 1709917702
