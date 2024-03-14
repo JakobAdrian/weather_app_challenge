@@ -1,7 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:weather_app/home/models/weather.dart';
-import 'package:weather_app/home/repositories/weather_repository.dart';
-import 'package:flutter/material.dart';
 part 'weather.g.dart';
 
 @JsonSerializable()
@@ -29,13 +26,21 @@ class Weather {
     required this.sunrise,
     required this.sunset,
   });
-}
 
-class Weather1 {
-  final double minTemp;
+  factory Weather.fromJson(Map<String, dynamic> json) =>
+      _$WeatherFromJson(json);
+  Map<String, dynamic> toJson() => _$WeatherToJson(this);
+}  
+  
+  
 
-  Weather1({required this.minTemp});
-}
+
+
+      
+
+
+ 
+
  
 
 // "cloud_pct": 31,
