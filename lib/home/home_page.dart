@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:weather_app/home/models/weather.dart';
 import 'package:weather_app/home/repositories/weather_repository.dart';
 
-
 class HomePage extends StatefulWidget {
   HomePage({super.key});
 
@@ -12,19 +11,32 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final myController = TextEditingController();
-  
+
   WeatherRepository weatherRepo = WeatherRepository();
   late Future<Weather> weather;
+  String inputText = "Werther";
 
   @override
   void initState() {
     super.initState();
-    weather = weatherRepo.getWeather("werther");
+    weather = weatherRepo.getWeather("Werther");
   }
+
   @override
   void setState(VoidCallback fn) {
-    // TODO: implement setState
     super.setState(fn);
+  }
+
+  @override
+  void dispose() {
+    myController.dispose();
+    super.dispose();
+  }
+
+  void updateText() {
+    setState(() {
+      inputText = myController.text;
+    });
   }
 
   @override
@@ -36,15 +48,18 @@ class _HomePageState extends State<HomePage> {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(myController.text, style: const TextStyle(fontSize: 30)),
-            TextField(
-              controller: myController,
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: "bitte Ort eingeben",
-                  contentPadding: EdgeInsets.all(15)),
-              style: const TextStyle(
-                fontSize: 30,
+            Text(inputText, style: const TextStyle(fontSize: 30)),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: myController,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: "bitte Ort eingeben",
+                    contentPadding: EdgeInsets.all(15)),
+                style: const TextStyle(
+                  fontSize: 30,
+                ),
               ),
             ),
             const SizedBox(height: 20),
@@ -57,7 +72,10 @@ class _HomePageState extends State<HomePage> {
               ),
               child: const Text("Wetter abfragen"),
               onPressed: () {
-                WeatherRepository().getWeather(myController.text);
+                weather = WeatherRepository().getWeather(myController.text);
+                updateText();
+                myController.clear();
+
                 setState(() {});
               },
             ),
@@ -77,8 +95,9 @@ class _HomePageState extends State<HomePage> {
                     builder: (BuildContext context,
                         AsyncSnapshot<Weather> snapshot) {
                       if (snapshot.hasData) {
-                        setState() { };
-                        
+                        setState() {}
+                        ;
+
                         return Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -131,7 +150,6 @@ class _HomePageState extends State<HomePage> {
                               height: 10,
                             ),
                             Text("${snapshot.data!.humidity}%",
-                            
                                 style: const TextStyle(
                                     fontSize: 25,
                                     fontWeight: FontWeight.bold,
@@ -383,6 +401,23 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.location_pin),
+              label: "",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.add),
+              label: "",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.list),
+              label: "",
+            ),
+          ],
+          selectedItemColor: Colors.amber[800],
         ),
       ),
     );
